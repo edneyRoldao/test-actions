@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  testdockerdbsrv:
+    image: mysql:8.0
+    container_name: mysqlsrvcontainer
+    environment:
+      MYSQL_DATABASE: "root"
+      MYSQL_ROOT_PASSWORD: "root"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ../mysql-docker-test/data:/var/lib/mysql
+  testdockerbacksrv:
+    build: .
+    container_name: testdockerbackcontainer
+    ports:
+      - "8081:8081"
+    environment:
+      DB_HOST: "testdockerdbsrv"
+      DB_PORT: "3306"
+      DB_USERNAME: "root"
+      DB_PASSWORD: "root"
+      FRONT_HOST: "http://192.168.176.225"
